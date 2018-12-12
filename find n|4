@@ -1,0 +1,61 @@
+int findleft(vector<int> &nums, int left, int right, int target)
+{
+    while(left<right)
+    {
+        int mid = left+(right-left)/2;
+        if(nums[mid] < target)
+            left = mid+1;
+
+        else
+            right = mid;
+    }
+    
+    return left;
+    
+}
+
+
+int findright(vector<int> &nums, int left, int right, int target)
+{
+    while(left<right)
+    {
+        int mid = left+(right-left)/2;
+        if(nums[mid] <= target)
+            left = mid+1;
+        
+        else
+            right = mid;
+    }
+    
+    if(nums[left] >target) left--;
+    
+    return left;
+}
+
+
+int findn(vector<int> &nums)
+{
+    int n = nums.size();
+    vector<int> splitp;
+    
+    splitp.push_back(0);   //nums[0]
+    splitp.push_back(n/4);
+    splitp.push_back(n/2);
+    splitp.push_back(n*3/4);
+    splitp.push_back(n-1);
+    
+    for(int i=1;i<splitp.size()-1;i++)
+    {
+//        int left = lower_bound(nums.begin()+splitp[i-1], nums.begin()+splitp[i+1], nums[splitp[i]]) - nums.begin();
+//        int right = upper_bound(nums.begin()+splitp[i-1], nums.begin()+splitp[i+1], nums[splitp[i]]) - nums.begin();
+        
+        int left = findleft(nums, splitp[i-1], splitp[i+1], nums[splitp[i]]);
+        int right = findright(nums, splitp[i-1], splitp[i+1], nums[splitp[i]]);
+        
+        int len = right - left+1;
+        cout<<nums[splitp[i]]<<" "<<left<<" "<<right<<endl;
+        if(len>n/4) return nums[splitp[i]];
+    }
+    
+    return -1;
+}
