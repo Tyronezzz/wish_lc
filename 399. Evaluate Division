@@ -1,0 +1,45 @@
+class Solution {
+public:
+    vector<double> calcEquation(vector<pair<string, string>> equations, vector<double>& values, vector<pair<string, string>> queries) {
+     
+        unordered_map<string, unordered_map<string, double>> umap;
+        vector<double> result;
+        
+        for(int i=0;i<equations.size();i++)
+        {
+            umap[equations[i].first][equations[i].second] = values[i];
+            umap[equations[i].second][equations[i].first] = 1/values[i];    
+        }
+        
+        for(int i=0;i<queries.size();i++)
+        {
+            set<string> exist;
+            double val = dfs(exist, umap, queries[i].first, queries[i].second, 1.0);
+            result.push_back(val);
+        }
+        
+        return result;
+    }
+    
+    
+    double dfs(set<string> &exist, unordered_map<string, unordered_map<string, double>> &umap, string begin, string end, double val)
+    {
+        if(exist.count(begin) || !umap.count(begin))
+            return -1.0;
+        
+        if(begin==end) return val;
+        exist.insert(begin);
+        
+        for(auto pr: umap[begin])
+        {
+            double v = dfs(exist, umap, pr.first, end, val*pr.second);
+            if(v!=-1.0) 
+                return v;
+        }
+        
+        return -1.0;
+        
+        
+    }
+    
+ };   
