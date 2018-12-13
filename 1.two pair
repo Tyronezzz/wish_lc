@@ -1,0 +1,21 @@
+// output  vector<vector<int>>
+vector<vector<int>> twoSum(vector<int>& nums, int target)
+{
+
+    vector<vector<int>> vec;
+    
+    unordered_map<int, int> imap;
+    for(int i=0; i<nums.size();i++)
+    {
+        int aimNum = target - nums.at(i);
+        
+        if(imap.find(aimNum) != imap.end())
+        {
+            vec.push_back( {imap[aimNum], i} );
+        }
+        
+        imap[nums.at(i)] = i;
+    }
+    
+    return vec;
+}
