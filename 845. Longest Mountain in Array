@@ -1,0 +1,29 @@
+class Solution {
+public:
+    int longestMountain(vector<int>& A) {
+        int n=A.size();
+        if(n<3) return 0;
+        
+        int left=0, right=0, result=0;
+        while(left<n-1)
+        {
+            while(left<n-1 && A[left]>=A[left+1])
+                left++;
+            
+            right=left;
+            
+            while(right<n-1 && A[right]<A[right+1])
+                right++;
+            
+            while(right<n-1 && A[right]>A[right+1])
+            {
+                right++;
+                result = max(result, right-left+1);
+            }
+            left = right;
+            
+        }
+        return result;
+        
+    }
+};
