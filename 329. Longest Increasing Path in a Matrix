@@ -1,0 +1,52 @@
+class Solution {
+public:
+    
+    
+    int longestIncreasingPath(vector<vector<int>>& matrix) {
+        
+        int m = matrix.size();
+        if(m==0) return 0;
+        int n = matrix[0].size();
+        vector<vector<int>> cache(m, vector<int>(n, 0));
+        int maxi=1;
+        
+        for(int i=0;i<m;i++)
+        {
+            for(int j=0;j<n;j++)
+            {
+                int len = dfs(i, j, cache, matrix);
+                maxi = max(maxi, len);
+            }
+        }
+        
+        return maxi;
+        
+    }
+    
+    
+    int dfs(int i, int j, vector<vector<int>>& cache, vector<vector<int>>& matrix)
+    {
+        if(i<0 || i>=matrix.size()|| j<0 || j>=matrix[0].size())
+            return 0;
+        //cout<<i<<" "<<j<<endl;
+        if(cache[i][j]!=0) return cache[i][j];
+        vector<vector<int>> dir= {{0,1}, {1,0}, {0,-1}, {-1,0}};
+        
+        int len;
+        int maxi=1;
+        for(auto dirc: dir)
+        {
+            int x = i+dirc[0], y = j+dirc[1];
+            if(x<0 || x>=matrix.size()|| y<0 || y>=matrix[0].size())
+                continue;
+            if(matrix[i][j]>= matrix[x][y])
+                continue;
+            len = dfs(x,y,cache,matrix)+1;
+            maxi = max(len, maxi);    
+        }
+        cache[i][j] = maxi;
+        
+        return maxi;
+    }
+    
+};
