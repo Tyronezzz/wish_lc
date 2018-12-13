@@ -1,0 +1,30 @@
+class Solution {
+public:
+    int result=1;
+    int begin=0;
+    string longestPalindrome(string s) {
+        for(int i=0;i<s.size();i++)
+        {
+            helper(s,i, i);
+            helper(s, i, i+1);
+        }
+        return s.substr(begin, result);
+        
+    }
+    
+    void helper(string &s, int left, int right)
+    {
+        while(left >=0 && right<s.size() && s[left] == s[right])
+        {   
+            left--;
+            right++;
+            
+        }
+        
+        if(result<right-left-1)
+        {
+            result = right-left-1;
+            begin = left+1;
+        }
+    }
+};
