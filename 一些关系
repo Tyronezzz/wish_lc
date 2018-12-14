@@ -1,0 +1,76 @@
+//
+//  main.cpp
+//  wish
+//
+//  Created by Tyrone Hou on 12/11/18.
+//  Copyright © 2018 Tyrone Hou. All rights reserved.
+//
+
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+#include <unordered_set>
+#include <math.h>
+#include <string>
+using namespace std;
+
+
+vector<string> path;
+
+int dfs(string start, string end, unordered_map<string, vector<pair<string, string>>> &rel, unordered_set<string> &seen)
+{
+    if(seen.count(start))
+        return -1;
+    
+    if(start == end)
+        return 1;
+    for(auto pr:rel[start])
+    {
+        seen.insert(start);
+        
+        string nstart = string(pr.first);
+        path.push_back(pr.second);
+        int fl = dfs(nstart, end, rel, seen);
+        if(fl==1)
+            return 1;
+        else
+        {
+            path.pop_back();
+            seen.erase(start);
+        }
+        
+    }
+    return -1;
+}
+
+string findrelations(vector<vector<string>> &relations)
+{
+    string result="";
+    unordered_map<string, vector<pair<string, string>>> rel;
+    
+    for(auto pr:relations)
+    {
+        rel[pr[0]].push_back({pr[1], pr[2]});
+    }
+    
+    string start ="m", end = "n";
+    
+    unordered_set<string> seen;
+    dfs(start, end, rel, seen);
+    
+    for(string re:path)
+        result += re;
+    
+    return result;
+}
+
+
+int main(int argc, const char * argv[]) {
+    
+    vector<vector<string>> relations = {{"a", "b", "sist"}, {"b", "c", "mother"}, {"a", "d", "son"}, {"b", "e", "father"}, {"a", "e", "sis"}, {"e", "a", "sis"}, {"c", "f", "sonn"}};
+    
+    cout<<findrelations(relations)<<endl;
+    return 0;
+}
+
+
