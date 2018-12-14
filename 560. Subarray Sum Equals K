@@ -1,0 +1,24 @@
+int subarraySum(vector<int>& nums, int k) {
+    unordered_map<int, pair<int, int>> presum;  //  sum, #, start
+    int sum=0;
+    int cnt=0;
+    vector<vector<int>> index;
+    presum[0].first = 1;
+    
+    for(int i=0;i<nums.size();i++)
+    {
+        sum += nums[i];
+        if(presum.count(sum-k))
+        {
+            cnt += presum[sum-k].first;
+            index.push_back( {presum[sum-k].second+1, i} );
+        }
+        presum[sum].first++;
+        presum[sum].second =i;
+    }
+    
+    for(auto pr:index)
+        cout<<pr[0]<<" "<<pr[1]<<endl;
+    
+    return cnt;
+}
