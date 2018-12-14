@@ -1,17 +1,24 @@
 vector<string> findcombination(string str)
 {
     vector<string> result;
-    
     if(str.size()==0) return result;
+    int begin=0, end=0;
     
-    for(int i=0;i<str.size();i++)
+    while(begin<str.size())
     {
-        for(int j=i;j<str.size();j++)
+        string ss(1, str[end]);
+        result.push_back(ss);
+        while(end<str.size())
         {
-            result.push_back(str.substr(i, j-i+1));
+            for(int i=end+1;i<str.size();i++)
+            {
+                result.push_back(str.substr(begin, end-begin+1) + str[i]);
+            }
+            end++;
         }
-        
+        begin++;
+        end = begin;
     }
-    return result;
     
+    return result;
 }
