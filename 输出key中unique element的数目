@@ -1,0 +1,66 @@
+//给一个map<String,List<String>> 比如说 {"shirt":["shirt1","shirt2"],"shirt1":["shirt3",],"pants":["trousers"]}. list中的词是key的同义词。让你输出key中unique element的数目。
+
+
+//
+//  main.cpp
+//  wish
+//
+//  Created by Tyrone Hou on 12/11/18.
+//  Copyright © 2018 Tyrone Hou. All rights reserved.
+//
+
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+#include <unordered_set>
+#include <math.h>
+#include <string>
+using namespace std;
+
+bool check(unordered_set<string> related, unordered_set<string> &seen)  // return true if seen has sth in related
+{
+    for(string iter:related)
+    {
+        if(seen.count(iter))
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+int elementNum(vector<pair<string, unordered_set<string>>> &things)
+{
+    unordered_set<string> seen;
+    int result=0;
+    
+    for(auto pr:things)
+    {
+        if(!seen.count(pr.first))
+        {
+            if(!check(pr.second, seen))
+                result++;
+            seen.insert(pr.first);
+        }
+        
+        for(string iter:pr.second)
+            seen.insert(iter);
+        cout<<seen.size()<<endl;
+    }
+    
+    return result;
+}
+
+
+int main(int argc, const char * argv[]) {
+    
+    vector<int> nums = {1,2,3,4,5,6,8,10};    // 23 14  5,  13 6
+
+    vector<pair<string, unordered_set<string>>> things ={{"s", {"s1"}},{"s2", {"s1"}} };
+    //{{"s", {"s1", "s2"}},{"s1", {"s3"}}, {"p1", {"t1"}} };
+    
+    cout<<elementNum(things)<<endl;
+    return 0;
+}
+
+
