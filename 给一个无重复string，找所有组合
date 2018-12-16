@@ -22,3 +22,22 @@ vector<string> findcombination(string str)
     
     return result;
 }
+
+
+void generate(set<string>& st, string s)   // dictionary index
+{
+    if(s.size() == 0)
+        return;
+    
+    if(!st.count(s))
+    {
+        st.insert(s);
+        
+        for(int i=0;i<s.size();i++)
+        {
+            string tmp = s;
+            tmp.erase(i, 1);
+            generate(st, tmp);
+        }
+    }
+}
