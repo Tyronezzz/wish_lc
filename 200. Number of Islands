@@ -15,6 +15,37 @@ private:
         helper(island, i, j-1);
     }
     
+    vector<vector<int>> dir = {{0,1}, {1,0}, {0,-1},{-1,0}};
+    
+    void bfs(vector<vector<char>>& island, int i, int j)
+    {
+        queue<vector<int>> qu;
+        
+        qu.push({i, j});
+        island[i][j] = '0';
+        
+        while(!qu.empty())
+        {
+            int nx = qu.front()[0], ny = qu.front()[1];
+            //cout<<nx<<" "<<ny<<endl;
+            qu.pop();
+            
+            for(auto pr:dir)
+            {
+                int x = nx+pr[0], y = ny+pr[1];
+                if(x<0 || x>=m || y<0 || y>=n || island[x][y] == '0')
+                    continue;
+                else
+                {
+                    qu.push({x,y});
+                    island[x][y] = '0';
+                }                 
+            }   
+        }
+    }
+    
+    
+    
     
 public:
     int numIslands(vector<vector<char>>& grid) {
