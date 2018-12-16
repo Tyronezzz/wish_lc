@@ -1,3 +1,19 @@
+//
+//  main.cpp
+//  wish
+//
+//  Created by Tyrone Hou on 12/11/18.
+//  Copyright © 2018 Tyrone Hou. All rights reserved.
+//
+
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+#include <unordered_set>
+#include <math.h>
+#include <string>
+using namespace std;
+
 int findleft(vector<int> &nums, int left, int right, int target)
 {
     while(left<right)
@@ -5,11 +21,11 @@ int findleft(vector<int> &nums, int left, int right, int target)
         int mid = left+(right-left)/2;
         if(nums[mid] < target)
             left = mid+1;
-
+        
         else
             right = mid;
     }
-    
+    // 2 3 5 5 5
     return left;
     
 }
@@ -20,13 +36,14 @@ int findright(vector<int> &nums, int left, int right, int target)
     while(left<right)
     {
         int mid = left+(right-left)/2;
-        if(nums[mid] <= target)
+        if(nums[mid] <= target)  //
             left = mid+1;
         
         else
             right = mid;
     }
     
+    // 5 5 5 6 7
     if(nums[left] >target) left--;
     
     return left;
@@ -46,15 +63,16 @@ int findn(vector<int> &nums)
     
     for(int i=1;i<splitp.size()-1;i++)
     {
-//        int left = lower_bound(nums.begin()+splitp[i-1], nums.begin()+splitp[i+1], nums[splitp[i]]) - nums.begin();
-//        int right = upper_bound(nums.begin()+splitp[i-1], nums.begin()+splitp[i+1], nums[splitp[i]]) - nums.begin();
+        //        int left = lower_bound(nums.begin()+splitp[i-1], nums.begin()+splitp[i+1], nums[splitp[i]]) - nums.begin();
+        //        int right = upper_bound(nums.begin()+splitp[i-1], nums.begin()+splitp[i+1], nums[splitp[i]]) - nums.begin();
         
         int left = findleft(nums, splitp[i-1], splitp[i+1], nums[splitp[i]]);
         int right = findright(nums, splitp[i-1], splitp[i+1], nums[splitp[i]]);
         
         int len = right - left+1;
         cout<<nums[splitp[i]]<<" "<<left<<" "<<right<<endl;
-        if(len>n/4) return nums[splitp[i]];
+        
+        if(len>ceil((double)n/4)) return nums[splitp[i]];
     }
     
     return -1;
@@ -63,3 +81,13 @@ int findn(vector<int> &nums)
 
 //优化的办法就是 如果你提前判断每个锚点左右两边的数是否相等 就可能可以省掉那一边的binary search
 //如果你提前判断几个锚点之间是否相等 如果相等那么可以直接输出结果
+
+
+int main(int argc, const char * argv[]) {
+    
+    vector<int> nums = {1,1,1,1,2,2,2,3, 4, 5, 6,6,6,6,6,7};
+    cout<<findn(nums)<<endl;
+    return 0;
+}
+
+
