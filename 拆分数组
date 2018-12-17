@@ -1,0 +1,78 @@
+//
+//  main.cpp
+//  wish
+//
+//  Created by Tyrone Hou on 12/11/18.
+//  Copyright © 2018 Tyrone Hou. All rights reserved.
+//
+
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+#include <unordered_set>
+#include <math.h>
+#include <string>
+#include <set>
+using namespace std;
+
+vector<int> get10(int sum, vector<int> &result)
+{
+    vector<int> tmp;
+    while(sum>=10)
+    {
+        tmp.push_back(sum%10);
+        sum /=10;
+    }
+    tmp.push_back(sum);
+    
+    for(int k=tmp.size()-1;k>=0;k--)
+        result.push_back(tmp[k]);
+    return tmp;
+}
+
+vector<int> getSlot(vector<int> &numsA, vector<int> &numsB)
+{
+    vector<int> result;
+    
+    int m=numsA.size(), n = numsB.size();
+    if(m==0) return numsB;
+    else if(n==0) return numsA;
+    
+    int i=0, j=0;
+    while(i<m && j<n)
+    {
+        int sum = numsA[i] + numsB[j];
+        get10(sum, result);
+        i++;
+        j++;
+    }
+    
+    while(i<m)
+    {
+        get10(numsA[i], result);
+        i++;
+    }
+    
+    while(j<n)
+    {
+        get10(numsB[j], result);
+        j++;
+    }
+    
+    for(int x:result)
+        cout<<x<<" ";
+    
+    return result;
+}
+
+
+// Driver code
+int main()
+{
+    //vector<char> lights = {'R', 'G','R','R','R', 'R','G','G','R', 'R','R','G','G','R','G'};  //
+    
+    vector<int> numsA = {1,6,9, 90, 100, 4,3}, numsB = {1,1,4, 301};
+    getSlot(numsA, numsB);
+    
+    return 0;
+}
