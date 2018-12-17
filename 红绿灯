@@ -1,0 +1,60 @@
+//
+//  main.cpp
+//  wish
+//
+//  Created by Tyrone Hou on 12/11/18.
+//  Copyright © 2018 Tyrone Hou. All rights reserved.
+//
+
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+#include <unordered_set>
+#include <math.h>
+#include <string>
+#include <set>
+using namespace std;
+
+int findMax(vector<char> &lights)   // find most R
+{
+    int result=0, n = lights.size();
+    if(n==0) return 0;
+    
+    vector<int> pos(2, 0);
+    for(int i=0;i<n;i++)
+    {
+        if(lights[i]=='G')
+            continue;
+        int cur= 1;
+        for(int j=i+1;j<n;j++)
+        {
+            if(lights[j]=='G')
+                cur--;
+        
+            else
+                cur++;
+            
+            if(result < cur)
+            {
+                result = max(result, cur);
+                pos[0] = i;
+                pos[1] = j;
+            }
+        }
+        
+    }
+    
+    cout<<pos[0]<<" "<<pos[1]<<endl;
+    return result;
+}
+
+
+// Driver code
+int main()
+{
+    vector<char> lights = {'R', 'G','R','R','R', 'R','G','G','R', 'R','R','G','G','R','G'};  //
+    cout<<findMax(lights)<<endl;
+    return 0;
+}
+
+
