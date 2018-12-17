@@ -2,6 +2,39 @@ class Solution {
 public:
     vector<int> topKFrequent(vector<int>& nums, int k) {
         
+        //bucket sort
+        vector<int> result;
+        int n = nums.size();
+        if(n==0)
+            return result;
+        
+        unordered_map<int, int> cnt;
+        for(int num:nums)
+            cnt[num]++;
+        
+        vector<vector<int>> bucket(n+1);
+        
+        for(auto pr:cnt)
+        {
+            bucket[pr.second].push_back(pr.first);
+        }
+        
+        for(int i=bucket.size()-1;i>=0;i--)
+        {
+            for(int j=0;j<bucket[i].size();j++)
+            {
+                result.push_back(bucket[i][j]);
+                if(k == result.size())
+                    return result;
+            }
+        }
+        
+        return result;
+        
+        
+        
+        
+        
         vector<int> result;
         if(nums.size() == 0)
             return result;
@@ -30,3 +63,5 @@ public:
         return result;   
     }
 };
+
+
