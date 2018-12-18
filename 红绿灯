@@ -49,6 +49,46 @@ int findMax(vector<char> &lights)   // find most R
 }
 
 
+int findMax(vector<char> &lights)
+{
+    if(lights.size()==0) return 0;
+    if(lights.size()==1 && lights[0]=='R') return 1;
+    
+    
+    vector<int> sum(lights.size(), 0);
+    
+    sum[0] = lights[0]=='R'? 1:-1;
+    for(int i=1;i<lights.size();i++)
+    {
+        sum[i] = sum[i-1]+ (lights[i]=='R'? 1:-1);
+    }
+    
+    int result=0, mini=sum[0], start=0, pos=0, end=0;
+    for(int i=0;i<lights.size();i++)
+    {
+        cout<<sum[i]<<" ";
+        if(sum[i] < mini)
+        {
+            mini = sum[i];
+            pos = i;
+        }
+        
+        if(result < sum[i] - mini)
+        {
+            result = max(result, sum[i] - mini);
+            start = pos==0? pos: pos+1;
+            end=i;
+        }
+        
+    }
+    cout<<endl;
+    cout<<start<<" "<<end<<endl;
+    
+    return result;
+}
+
+
+
 // Driver code
 int main()
 {
