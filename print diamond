@@ -1,0 +1,35 @@
+void printDiamond(int n, int row, int col, int val, vector<vector<int>> &matrix)
+{
+    if(row<0 || row>=n || col<0 || col>=n || val<=0 || matrix[row][col]!=0)
+        return;
+   
+    matrix[row][col] = val;
+    
+    if(row<=n/2)
+        printDiamond(n, row-1, col, val-1, matrix);
+    if(row>=n/2)
+        printDiamond(n, row+1, col, val-1, matrix);
+    
+    printDiamond(n, row, col-1, val-1, matrix);
+    printDiamond(n, row, col+1, val-1, matrix);
+}
+
+int main()
+{
+    int n=1;
+    vector<vector<int>> matrix(n, vector<int>(n ,0));
+    printDiamond(n, (n-1)/2, (n-1)/2, (n+1)/2, matrix);
+    
+    for(int i=0;i<matrix.size();i++)
+    {
+        for(int j=0;j<n;j++)
+        {
+            if(matrix[i][j] ==0)
+                cout<<" ";
+            else
+                cout<<matrix[i][j];
+        }
+        cout<<endl; 
+    }
+    return 0;
+}
