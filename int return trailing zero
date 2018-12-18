@@ -2,7 +2,7 @@ int trailingZero(int x)
 {
     if(x>INT_MAX) return -1;
     else if (x==0) return 1;
-     // cannot binary search string eg. 2003000000
+    // cannot binary search string eg. 2003000000
     string str = to_string(x);
     
     int len = str.size();
@@ -11,22 +11,24 @@ int trailingZero(int x)
     int right=0;
     int tenlen=-1;
     
-    do {
-        tenlen = pow(10, ceil(len/2));
+    while(x>=10)
+    {
+        tenlen = pow(10, (len/2));
         left = x/ tenlen;
         right = x %tenlen;
         if(right!=0)
+        {
             x= right;
+            len = len/2;
+        }
+        
         else
         {
             x= left;
-            sum += ceil(len/2);
+            sum += (len/2);
+            len -= (len/2);
         }
-        len -= ceil(len/2);
     }
-    while(left>=10);
-
-    //if(left==10 && right==0) sum++;
     
     return sum;
 }
