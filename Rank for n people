@@ -33,7 +33,7 @@ long long solveranking(int n)
             if(i==j)
                 dp[i][j] = fact[i];
             else
-                dp[i][j] = i*dp[i][j-1]+ i*dp[i-1][j-1];
+                dp[i][j] = i*dp[i][j-1]+ i*dp[i-1][j-1]; // put it in 1~i along with others; put it alone;
         }
     }
     
