@@ -1,23 +1,27 @@
 // select k numbers from vector to get target
 int kSum(vector<int>& nums, int target, int K)
 {
-    vector<vector<vector<int>>> dp(2, vector<vector<int>>(target + 1, vector<int>(K + 1, 0)));
-    dp[0][0][0] = 1;
-    dp[0][nums[0]][1] = 1;
+    int n = nums.size();
+    if(n==0) return 0;
     
-    for(int i=1;i<nums.size();i++)
+    vector<vector<vector<int>>> dp(n+1, vector<vector<int>>(target + 1, vector<int>(K + 1, 0)));
+    
+    for(int i = 0; i <= n; i++)
+        dp[i][0][0] = 1;
+    
+    for(int i=1;i<=nums.size();i++)
     {
-        for(int j=0;j<=target;j++)
+        for(int j=1;j<=target;j++)
         {
-            for(int k=0;k<=K;k++)
+            for(int k=0;k<=K&&k<=i;k++)
             {
-                dp[i%2][j][k] = dp[(i-1)%2][j][k];
-                if(j>=nums[i] && k>0)
-                    dp[i%2][j][k] += dp[(i-1)%2][j-nums[i]][k-1];
+                dp[i][j][k] = dp[i-1][j][k];
+                if(j>=nums[i-1])
+                    dp[i][j][k] += dp[i-1][j-nums[i-1]][k-1];
             }
         }
     }
     
-    
-    return dp[(nums.size()-1)%2][target][K];
+    return dp[n][target][K];
+
 }
