@@ -1,7 +1,45 @@
 //iterative postorder traversal, map<node, int>
 
+class Solution {
+public:
+    bool isBalanced(TreeNode* root) 
+    {
+        if(!root) return true;
+        unordered_map<TreeNode*, int> umap;
+        
+        stack<TreeNode*> st;
+        st.push(root);
+        while(!st.empty())
+        {
+            TreeNode* cur = st.top();
+            
 
-//
+            if(cur->left!=NULL && !umap.count(cur->left))
+                st.push(cur->left);
+                
+            else if(cur->right!=NULL && !umap.count(cur->right))
+                st.push(cur->right);
+                
+            else
+            {
+                st.pop();
+                int leftheight = umap.count(cur->left)? umap[cur->left]: 0;
+                int rightheight = umap.count(cur->right)? umap[cur->right]: 0;
+                
+                int dif = abs(leftheight - rightheight);
+                if(dif>1)
+                    return false;
+                umap[cur] = max(rightheight, leftheight)+1;
+            }     
+        }
+    
+        return true;
+    }
+};
+
+
+
+// recursive
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
